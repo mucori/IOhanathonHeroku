@@ -1,0 +1,1 @@
+web: java -jar target/QRGenerator-1.0.jar
