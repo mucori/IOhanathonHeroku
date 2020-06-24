@@ -1,4 +1,4 @@
-package com.example;
+package com.accenture.sfdc;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.utils.CSVAnalizer;
-import com.example.utils.Encoding;
-import com.example.utils.FTPConnection;
-import com.example.utils.QRGenerator;
+import com.accenture.sfdc.utils.CSVAnalizer;
+import com.accenture.sfdc.utils.Encoding;
+import com.accenture.sfdc.utils.FTPConnection;
+import com.accenture.sfdc.utils.QRGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.zxing.WriterException;
 
@@ -33,6 +33,7 @@ public class HackathonRest {
 
 	/**
 	 * Método para gestionar las peticiones entrantes de tipo GET a la URL /qrcode
+	 * 
 	 * @param text
 	 * @param width
 	 * @param height
@@ -41,15 +42,18 @@ public class HackathonRest {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "qrcode", method = RequestMethod.GET)
-	public static String generateQRCode(@RequestParam String text, @RequestParam int width, @RequestParam int height) throws WriterException, IOException {
+	public static String generateQRCode(@RequestParam String text, @RequestParam int width, @RequestParam int height)
+			throws WriterException, IOException {
 		QRGenerator qrGenerator = new QRGenerator(text, width, height);
 		return Encoding.base64Encode(Encoding.getBytes(qrGenerator.generate(), "png"));
 	}
 
 	/**
-	 * Método para gestionar la conexion con un servidor FTP. Obtiene un fichero CSV para analizarlo, obtener los datos
-	 * y la imagen que se debe descargar.
-	 * @return Se devuelve un objeto JSON con los datos del CSV y el contenido del fichero asociado en Base64
+	 * Método para gestionar la conexion con un servidor FTP. Obtiene un fichero CSV
+	 * para analizarlo, obtener los datos y la imagen que se debe descargar.
+	 * 
+	 * @return Se devuelve un objeto JSON con los datos del CSV y el contenido del
+	 *         fichero asociado en Base64
 	 * @throws WriterException
 	 * @throws IOException
 	 */
@@ -63,10 +67,10 @@ public class HackathonRest {
 			if (connection.connect()) {
 				connection.changeWorkingDirectory(FTP_WORKING_DIR);
 				byte[] csvBytes = connection.retrieveFile(CSV_RESOURCE_FILE);
-				if(csvBytes != null) {
+				if (csvBytes != null) {
 					ArrayList<TreeMap<String, String>> csvData = CSVAnalizer.analizeCSV(new String(csvBytes));
 					if (csvData.size() > 0) {
-						for(TreeMap<String, String> csvRow : csvData) {
+						for (TreeMap<String, String> csvRow : csvData) {
 							String filePath = csvRow.get(CSVAnalizer.FILE);
 							byte[] fileBytes = connection.retrieveFile(filePath);
 							csvRow.put(CSVAnalizer.FILE, Encoding.base64Encode(fileBytes));

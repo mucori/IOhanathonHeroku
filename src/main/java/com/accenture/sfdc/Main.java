@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example;
+package com.accenture.sfdc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,5 +26,5 @@ public class Main {
     SpringApplication.run(Main.class, args);
 
   }
- 
+
 }

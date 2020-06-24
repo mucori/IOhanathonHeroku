@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.accenture.sfdc.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -14,7 +14,8 @@ import javax.imageio.ImageIO;
 public class Encoding {
 
 	/**
-	 * Método para obtener los bytes de una  imagen
+	 * Método para obtener los bytes de una imagen
+	 * 
 	 * @param image
 	 * @param type
 	 * @return Devuelve el conjunto de bytes que forman la imagen
@@ -30,6 +31,7 @@ public class Encoding {
 
 	/**
 	 * Método que condifica un conjunto de bytes en Base64
+	 * 
 	 * @param bytes
 	 * @return Devuelve los bytes recibidos tranformados en Base64
 	 */
